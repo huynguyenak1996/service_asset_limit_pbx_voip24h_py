@@ -20,7 +20,7 @@ def getConnection(config):
     else:
         return "không tìm thấy hoặc thiếu host"
 
-def mysql_query_all(sql,connection,limit=0):
+def mysql_query_find_all(sql,connection,limit=0):
     try:
         with connection.cursor() as cursor:
             # Thực thi câu lệnh truy vấn (Execute Query).
@@ -31,10 +31,7 @@ def mysql_query_all(sql,connection,limit=0):
                 data = cursor.fetchall()
             return data
     except connection.Error as error:
-        print("Failed to read data from table", error)
-    finally:
-        # Đóng kết nối (Close connection).
-        connection.close()
+        print("Không thể đọc dữ liệu từ bảng", error)
 
 def mysql_query_find_one(sql,connection):
     try:
@@ -43,6 +40,5 @@ def mysql_query_find_one(sql,connection):
             cursor.execute(sql)
             data = cursor.fetchone()
             return data
-    finally:
-        # Đóng kết nối (Close connection).
-        connection.close()
+    except connection.Error as error:
+        print("Không thể đọc dữ liệu từ bảng", error)
